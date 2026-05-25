@@ -8,12 +8,16 @@ pipeline {
         DockerUsername = credentials('Docker-username')
         DockerPassword = credentials('Docker-password')
     }
+    tools{
+      jdk 'jdk-11'
+      maven 'maven-354'
+    }
 
     stages {
 
         stage('Build Java app') {
             steps {
-                sh 'mvn package -DskipTests'
+                sh "mvn package -DskipTests"
             }
         }
 
