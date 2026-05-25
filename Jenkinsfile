@@ -7,6 +7,8 @@ pipeline {
     environment {
         DockerUsername = credentials('Docker-username')
         DockerPassword = credentials('Docker-password')
+        JAVA_HOME = '/usr/lib/jvm/java-21-openjdk-21.0.10.0.7-2.el9.x86_64'
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
     }
     tools{
       jdk 'jdk-11'
