@@ -39,13 +39,13 @@ pipeline {
             }
         }
 
-        stage('Login Docker') {
-            steps {
-                sh '''
-                    docker login -u $DockerUsername -p $DockerUsername
-                '''
-            }
-        }
+        // stage('Login Docker') {
+        //     steps {
+        //         sh '''
+        //             docker login -u $DockerUsername -p $DockerUsername
+        //         '''
+        //     }
+        // }
 
         // stage('Push Docker image') {
         //     steps {
