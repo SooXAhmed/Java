@@ -8,10 +8,21 @@ node('agent2') {
         "PATH+JAVA=${jdkHome}/bin",
         "PATH+MAVEN=${mavenHome}/bin"
     ]) {
-    withCredentials([
-        string(credentialsId: 'Docker-username', variable: 'DOCKER_USER'),
-        string(credentialsId: 'Docker-password', variable: 'DOCKER_PASS')
-    ]) {
+
+        withCredentials([
+            string(credentialsId: 'Docker-username', variable: 'DOCKER_USER'),
+            string(credentialsId: 'Docker-password', variable: 'DOCKER_PASS')
+        ]) {
+
+stage('Clone Repository') {
+    git branch: 'main',
+        url: 'https://github.com/SooXAhmed/Java.git'
+}
+
+            stage('Check Files') {
+                sh 'pwd'
+                sh 'ls -la'
+            }
 
             stage('Build Java app') {
                 sh 'mvn package -DskipTests'
@@ -28,16 +39,6 @@ node('agent2') {
             stage('Build Docker image') {
                 sh 'docker build -t java-app-img1:v1 .'
             }
-
-            // stage('Login Docker') {
-            //     sh '''
-            //         docker login -u $DockerUsername_USR -p $DockerUsername_PSW
-            //     '''
-            // }
-
-            // stage('Push Docker image') {
-            //     sh 'docker push java-app-img1:v1'
-            // }
 
         }
     }
