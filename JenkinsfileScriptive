@@ -9,13 +9,14 @@ node('agent2') {
         "PATH+MAVEN=${mavenHome}/bin"
     ]) {
 
-        withCredentials([
-            usernamePassword(
-                credentialsId: 'Docker-username',
-                usernameVariable: 'DockerUsername',
-                passwordVariable: 'DockerUsername'
-            )
-        ]) {
+        // withCredentials([
+        //     usernamePassword(
+        //         credentialsId: 'Docker-username',
+        //         usernameVariable: 'DockerUsername',
+        //         passwordVariable: 'DockerUsername'
+        //     )
+        // ]) 
+        {
 
             stage('Build Java app') {
                 sh 'mvn package -DskipTests'
@@ -33,11 +34,11 @@ node('agent2') {
                 sh 'docker build -t java-app-img1:v1 .'
             }
 
-            stage('Login Docker') {
-                sh '''
-                    docker login -u $DockerUsername_USR -p $DockerUsername_PSW
-                '''
-            }
+            // stage('Login Docker') {
+            //     sh '''
+            //         docker login -u $DockerUsername_USR -p $DockerUsername_PSW
+            //     '''
+            // }
 
             // stage('Push Docker image') {
             //     sh 'docker push java-app-img1:v1'
