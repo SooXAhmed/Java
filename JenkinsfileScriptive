@@ -12,8 +12,8 @@ node('agent2') {
         withCredentials([
             usernamePassword(
                 credentialsId: 'Docker-username',
-                usernameVariable: 'DockerUsername_USR',
-                passwordVariable: 'DockerUsername_PSW'
+                usernameVariable: 'DockerUsername',
+                passwordVariable: 'DockerUsername'
             )
         ]) {
 
