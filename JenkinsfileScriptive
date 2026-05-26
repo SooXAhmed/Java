@@ -1,0 +1,48 @@
+node('agent2') {
+
+    def jdkHome = tool name: 'jdk-11', type: 'jdk'
+    def mavenHome = tool name: 'maven-354', type: 'maven'
+
+    withEnv([
+        "JAVA_HOME=${jdkHome}",
+        "PATH+JAVA=${jdkHome}/bin",
+        "PATH+MAVEN=${mavenHome}/bin"
+    ]) {
+
+        withCredentials([
+            usernamePassword(
+                credentialsId: 'Docker-username',
+                usernameVariable: 'DockerUsername_USR',
+                passwordVariable: 'DockerUsername_PSW'
+            )
+        ]) {
+
+            stage('Build Java app') {
+                sh 'mvn package -DskipTests'
+            }
+
+            stage('Test Java app') {
+                sh 'mvn test'
+            }
+
+            stage('Archive Java app') {
+                archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
+            }
+
+            stage('Build Docker image') {
+                sh 'docker build -t java-app-img1:v1 .'
+            }
+
+            stage('Login Docker') {
+                sh '''
+                    docker login -u $DockerUsername_USR -p $DockerUsername_PSW
+                '''
+            }
+
+            // stage('Push Docker image') {
+            //     sh 'docker push java-app-img1:v1'
+            // }
+
+        }
+    }
+}
