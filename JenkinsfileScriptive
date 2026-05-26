@@ -8,13 +8,10 @@ node('agent2') {
         "PATH+JAVA=${jdkHome}/bin",
         "PATH+MAVEN=${mavenHome}/bin"
     ]) {
-
-        withCredentials([
-            usernamePassword(
-                usernameVariable: 'DockerUsername',
-                passwordVariable: 'DockerUsername'
-            )
-        ]) {
+    withCredentials([
+        string(credentialsId: 'Docker-username', variable: 'DOCKER_USER'),
+        string(credentialsId: 'Docker-password', variable: 'DOCKER_PASS')
+    ]) {
 
             stage('Build Java app') {
                 sh 'mvn package -DskipTests'
