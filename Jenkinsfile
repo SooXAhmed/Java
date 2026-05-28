@@ -1,3 +1,4 @@
+@Library('First-Shared-Lib')_
 pipeline {
 
     agent {
@@ -16,14 +17,19 @@ pipeline {
     stages {
 
         stage('Build Java app') {
-            steps {
-                sh "mvn package -DskipTests"
+            script{
+                def allMavenFunctions=new org.package1.mavenClass()
+                allMavenFunctions.build("package install -DskipTests")
             }
+
         }
 
         stage('Test Java app') {
             steps {
-                sh 'mvn test'
+                script{
+                    def allMavenFunctions=new org.package1.mavenClass()
+                    allMavenFunctions.test()
+                }
             }
         }
 
@@ -35,6 +41,9 @@ pipeline {
 
         stage('Build Docker image') {
             steps {
+                // script{
+                //     allDockerFunctions=new edu.package1.DockerClass()
+                // }
                 sh 'docker build -t java-app-img1:v1 .'
             }
         }
