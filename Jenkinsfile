@@ -1,4 +1,4 @@
-@Library('First-Shared-Lib')_
+@Library('First-Shared-Lib') _
 pipeline {
 
     agent {
@@ -17,15 +17,12 @@ pipeline {
     stages {
 
         stage('Build Java app') {
-            step{
-                script{
-                def allMavenFunctions=new org.package1.mavenClass()
-                allMavenFunctions.build("package install -DskipTests")
+            steps {
+                script {
+                    def allMavenFunctions = new org.package1.mavenClass()
+                    allMavenFunctions.build("package install -DskipTests")
+                }
             }
-
-            }
-  
-
         }
 
         stage('Test Java app') {
