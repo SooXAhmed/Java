@@ -17,10 +17,14 @@ pipeline {
     stages {
 
         stage('Build Java app') {
-            script{
+            step{
+                script{
                 def allMavenFunctions=new org.package1.mavenClass()
                 allMavenFunctions.build("package install -DskipTests")
             }
+
+            }
+  
 
         }
 
